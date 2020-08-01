@@ -1,0 +1,116 @@
+NIKKI'S PSEUDOCODE.
+
+•Initialize a dictionary of the indexes (values) and index names (keys) called Indexes_Dictionary.
+•Define the Quality_Score_Cutoff as a variable.
+
+CREATING THE OUTPUT FILES:
+'''For every index name (key) of the dictionary of indexes, 
+create 2 new files that will hold the read1 and read2 from the input fastq files.'''
+•For every key in the indexes dictionary:
+    -Open up a write-able file that is named IndexName_forward.fastq
+    -Open up a write-able file that is named IndexName_reverse.fastq
+    (I will close these later.)
+
+•Open up write-able files named IndexHopped_forward.fastq, IndexHopped_reverse.fastq, Unknown_forward.fastq, and Unknown_reverse.fastq.
+
+define Reverse_Complement_Function(Read):
+    '''Takes the raw read from the instrument and converts it into
+    its reverse complement, and inserts it into a list. 
+    The number of items in the list is the number of total reads.'''
+
+    For every Letter in the line of the reversed Read:
+        •if Letter is A: 
+            append T to RC_list
+        •if Letter is T: 
+            append A to RC_list
+        •if Letter is C: 
+            append G to RC_list
+        •if Letter is G: 
+            append C to RC_list
+        •if Letter is N: 
+            append N to RC_list
+
+    return RC_list
+
+
+define Categorize_Records_Fuction that takes in the 4 fastq files: (using itertool)
+    '''This function will split up records from the four Input Files into three new output files: 
+        Files = Matched, Unmatched, and Unknown.
+        Matched: indexes match, i.e., R2 is the same as the reverse comp of R3
+        Unmatched: R2 is NOT the same as the RC of R3
+        Unknown: There are Ns in either R2 or R3.
+        Because each record in each of the four input files correlate to the same DNA molecule
+        (according to line count in the file), use itertool to read in files.'''
+
+    •Initialize a list called Current_Record_List that has two lists inside of it
+    (The list will initially look like: ([0,0,0,0],[0,0,0,0]),
+     where the first and second lists correspond to the entire record of read1 and read2, respectively.)
+
+    •Open each of the FASTQ files as R1, R2, R3, and R4
+
+    •Look at each line in R1, R2, R3, R4 simultaneously (called line_R1, line_R2, line_R3, line_R4):
+    (i.e. a For loop using itertools)
+        •Create a Line_Count counter starts with one and adds one each time through the loop
+        •If the Line_Count divided by 4 has a remainder of 1: 
+            -Store the header of R1 (line_R1) into the first position of the first list
+            -Store the header of R4 (line_R1) into the first position of the second list
+        •If the Line_Count divided by 4 has a remainder of 2: 
+            -Store the sequence of R1 (line_R1) into the second position of the first list
+            -Store the sequence of R4 (line_R4) into the second position of the second list
+            -Define the sequence of R2 (line_R2) as the variable R2_seq
+            -Define the sequence of R3 (line_R3) as the variable R3_seq
+            -Use the Reverse_Complement_Function for the sequence of R3 (line_R3), define as the variable R3_RC_seq
+        •If the Line_Count divided by 4 has a remainder of 3: 
+            -Store the comment of R1 (line_R1) into the third position of the first list
+            -Store the comment of R4 (line_R1) into the third position of the second list
+        •If the Line_Count divided by 4 has a remainder of 0: 
+            -Store the quality score of R1 (line_R1) into the fourth position of the first list
+            -Store the quality score of R4 (line_R4) into the fourth position of the second list
+            -Define the quality score of R2 (line_R2) as the variable R2_qscore
+            -Define the quality score of R3 (line_R3) as the variable R3_qscore
+
+        •Append the R2_seq value and the R3_seq value (separated by a "_") to first position in both lists of Current_Record_List.
+
+        •If R2_seq is not in the list of values in the Indexes_Dictionary 
+         AND/OR the average of R2_qscore or R3_qscore is less than the Quality_Score_Cutoff:
+            -Write the first list of Current_Record_List to Unknown_forward.fastq (add new line after each value in list? maybe?)
+            -Write the second list of Current_Record_List to Unknown_reverse.fastq 
+            -Add one to Unknown_counter (Is this correct...?)
+        •Otherwise (as in if R2_seq IS in the dictionary), if (elif) R2 is not the same as R3_RC:
+            -Write the first list of Current_Record_List to IndexHopped_forward.fastq
+            -Write the second list of Current_Record_List to IndexHopped_reverse.fastq
+            -Add one to the IndexHopped_counter
+        •Otherwise, if (elif) R2 is the same as R3_RC:
+            -Define a variable called Index_Name that is the key to the R2_seq value in the Indexes_Dictionary
+            -Write the first list of Current_Record_List to the corresponding IndexName_forward file (by using Index_Name and %s)
+            -Write the second list of Current_Record_List to the corresponding IndexName_reverse file
+            -Add one to Matched_counter
+    
+    Return Matched_counter, IndexHopped_counter, Unknown_counter
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+write reads 1 and 4 to separate files: we don't need 2 and 3 at this point. they're just used for organizing.
+
+header: r1 or 21. indices within the read. 
+
+BODY OF CODE:
+
+reverse comp r3. fill numpy array for each counter you go thru. all of the info is from the same "unit"- 
+r1-r4 is the same molecule
+rc r3. compare to r2. add those barcodes to the header line of r2 and r4. 
+if they match, sort into matched file.
+if not, index hopped file.
+if Ns, unknown. 
