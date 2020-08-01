@@ -17,11 +17,28 @@
     
 ## Part 2
 1. Define the problem
+
+```
+We want to de-multiplex the four fastq files we are given, 
+meaning that we want to separate the different libraries into their own files.
+```
+
 2. Describe output
+
+```
+
+```
+
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [4 expected output FASTQ files](../TEST-output_FASTQ).
+
 4. Pseudocode
+
+```See file named pseudocode.txt.```
+
 5. High level functions. For each function, be sure to include:
     1. Description/doc string
     2. Function headers (name and parameters)
     3. Test examples for individual functions
     4. Return statement
+    
+```This is all included in my pseudocode.```
