@@ -101,17 +101,4 @@ define Categorize_Records_Fuction that takes in the 4 fastq files: (using iterto
     
     Return Matched_counter, IndexHopped_counter, Unknown_counter
 
-
-
-write reads 1 and 4 to separate files: we don't need 2 and 3 at this point. they're just used for organizing.
-
-header: r1 or 21. indices within the read. 
-
-BODY OF CODE:
-
-reverse comp r3. fill numpy array for each counter you go thru. all of the info is from the same "unit"- 
-r1-r4 is the same molecule
-rc r3. compare to r2. add those barcodes to the header line of r2 and r4. 
-if they match, sort into matched file.
-if not, index hopped file.
-if Ns, unknown. 
+Print out Matched_counter, IndexHopped_counter, Unknown_counter.
