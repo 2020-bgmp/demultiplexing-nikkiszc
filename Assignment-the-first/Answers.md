@@ -12,8 +12,10 @@
 
 2. Per-base NT distribution
    
-![image](https://github.com/2020-bgmp/demultiplexing-nikkiszc/blob/master/plot_Index1.png)
+![image](https://github.com/2020-bgmp/demultiplexing-nikkiszc/blob/master/plot_Index1.png) 
 ![image](https://github.com/2020-bgmp/demultiplexing-nikkiszc/blob/master/plot_Index2.png)
+![image](https://github.com/2020-bgmp/demultiplexing-nikkiszc/blob/master/plot_Read1.png) 
+![image](https://github.com/2020-bgmp/demultiplexing-nikkiszc/blob/master/plot_Read2.png)
     
 ## Part 2
 1. Define the problem
@@ -35,6 +37,8 @@ In addition, there need to be a forward and reverse file for both unmatched and 
 ```
 
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [4 expected output FASTQ files](../TEST-output_FASTQ).
+
+```See the appropriate folders.```
 
 4. Pseudocode
 
