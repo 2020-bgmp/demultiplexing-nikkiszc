@@ -1,5 +1,18 @@
 NIKKI'S PSEUDOCODE.
 
+DEFINE THE PROBLEM:
+We want to de-multiplex the four fastq files we are given, 
+meaning that we want to separate different libraries into their own files.
+In addition, the forward and reverse reads must be placed in separate files.
+Finally, there must be a way to get rid off mismatched or untrustworthy indexes, 
+since this obviously affects the outcome of the aligments for each library.
+
+DESCRIBE WHAT OUTPUT WOULD BE INFORMATIVE:
+The end result should have separate FASTQ files for each of the forward and reverse reads for every library.
+Therefore, because there are 24 different libraries, there need to be 48 ouput FASTQ files..
+In addition, there need to be a forward and reverse file for both unmatched and unknown reads.
+
+
 •Initialize a dictionary of the indexes (values) and index names (keys) called Indexes_Dictionary.
 •Define the Quality_Score_Cutoff as a variable.
 
@@ -87,18 +100,6 @@ define Categorize_Records_Fuction that takes in the 4 fastq files: (using iterto
             -Add one to Matched_counter
     
     Return Matched_counter, IndexHopped_counter, Unknown_counter
-
-
-
-            
-
-
-
-
-
-
-
-
 
 
 
